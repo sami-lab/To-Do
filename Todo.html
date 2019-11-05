@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="Stylesheet" href = 'ToDoCss.css' >
+    <script src="https://kit.fontawesome.com/a90856c9bb.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+
+    <title>To Do</title>
+</head>
+<body style="background-color: #352f5b;">
+    
+    <div class="container" style="max-width: 400px;">
+        <header class="text-light text-center my-4">
+            <h1 class="mb-4"> Todo List</h1>
+            <form class="search ">
+                <input type="text" name="search" placeholder="Search Todo's" class="form-control m-auto">
+            </form>
+        </header>
+         <ul class="todo list-group text-light mx-auto">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                 <span>Eat Food</span>
+                 <i class="fas fa-trash-alt delete"></i>
+             </li>
+             <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span>Exercise</span>
+                    <i class="far fa-trash-alt delete"></i>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span>Study</span>
+                    <i class="far fa-trash-alt delete"></i>
+            </li>
+         </ul>
+         <form class="add text-center my-4">
+            <label class="text-light" >Add a new Todo...</label>
+            <input type="text" name="add" class="form-control m-auto">
+         </form>
+    </div>       
+
+</body>
+<script>
+//form
+const form =document.querySelector('.add');
+//ul
+const list = document.querySelector('.todo');
+const search = document.querySelector('.search input');
+const generatelist = todo=> {
+    const html =`
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+                 <span>${todo}</span>
+                 <i class="fas fa-trash-alt delete"></i>
+    </li>
+    `;
+    list.innerHTML += html;
+}
+form.addEventListener('submit',e=>{
+       e.preventDefault();
+       const todo = form.add.value.trim();
+       if(todo.length)
+       {
+        generatelist(todo);
+        form.reset();
+       }
+});
+
+//delete
+list.addEventListener('click', e=>{
+     if(e.target.classList.contains('delete'))
+     {
+        e.target.parentElement.remove();
+     }
+});
+
+//search
+
+const filtertodo = (term) => { 
+    Array.from(list.children)
+    .filter((todo) => !todo.textContent.toLowerCase().includes(term))
+    .forEach((todo) => { 
+        todo.classList.add('filtered'); 
+        todo.classList.remove('d-flex');
+    });
+
+
+
+    Array.from(list.children)
+    .filter((todo) => todo.textContent.toLowerCase().includes(term))
+    .forEach((todo) => {
+                       todo.classList.add('d-flex');
+                       todo.classList.remove('filtered');
+                       });
+};
+search.addEventListener('keyup', ()=>{
+    const term = search.value.toLowerCase().trim();
+    console.log(term);
+    filtertodo(term);
+})
+</script>
+</html>
