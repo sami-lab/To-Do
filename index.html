@@ -71,6 +71,7 @@ form.addEventListener('submit',e=>{
 
 //delete
 list.addEventListener('click', e=>{
+    //ONLY IF WE CLICK ON ICON WHICH HAS A CLASS OF DELETE WILL BE DELETED
      if(e.target.classList.contains('delete'))
      {
         e.target.parentElement.remove();
